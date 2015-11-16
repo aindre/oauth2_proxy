@@ -329,6 +329,9 @@ func (p *OAuthProxy) ErrorPage(rw http.ResponseWriter, code int, title string, m
 
 func (p *OAuthProxy) SignInPage(rw http.ResponseWriter, req *http.Request, code int) {
 	p.ClearCookie(rw, req)
+	rw.Header().Set("Cache-Control", "no-cache, no-store, must-revalidate") //HTTP 1.1
+	rw.Header().Set("Pragma", "no-cache") // HTTP 1.0
+	rw.Header().Set("Expires", "0") // Proxies
 	rw.WriteHeader(code)
 
 	redirect_url := req.URL.RequestURI()
